@@ -43,12 +43,11 @@ namespace Prediction_V2
             int enemyIndex = 0;
             foreach (var enemy in heromusuh)
             {
-                if (enemy.IsVisible && enemy.IsAlive)
-                {
+                if (enemy.IsAlive)
+                { 
                     EnemyTracker[enemyIndex].EnemyTracker = enemy;
                     EnemyTracker[enemyIndex].RelativeGameTime = (int)Game.GameTime;
-                }
-                if (EnemyTracker[enemyIndex].EnemyTracker != null && !enemy.IsVisible) //Draw last known direction
+  
                     LastKnownPosition(enemy, enemyIndex);
                 enemyIndex++;
             }
