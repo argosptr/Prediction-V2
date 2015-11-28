@@ -16,13 +16,7 @@ namespace Prediction_V2
 
         static void Main(string[] args)
         {
-            Game.OnUpdate += Game_OnUpdate;
             Drawing.OnDraw += Drawing_OnDraw; //Graphical Drawer
-        }
-
-        private static void Game_OnUpdate(EventArgs args)
-        {
-            Drawing.OnDraw += Drawing_OnDraw;
         }
 
         public static void Drawing_OnDraw(EventArgs args)
@@ -44,7 +38,6 @@ namespace Prediction_V2
             }
             #endregion
 
-            var players = ObjectMgr.GetEntities<Player>().ToList();
             var heromusuh = ObjectMgr.GetEntities<Hero>().Where(x => !x.IsIllusion && x.Team != me.Team).ToList();
             EnemyIndex = 0;
             int enemyIndex = 0;
@@ -55,7 +48,7 @@ namespace Prediction_V2
                     EnemyTracker[enemyIndex].EnemyTracker = enemy;
                     EnemyTracker[enemyIndex].RelativeGameTime = (int)Game.GameTime;
                 }
-                else if (EnemyTracker[enemyIndex].EnemyTracker != null) //Draw last known direction
+                if (EnemyTracker[enemyIndex].EnemyTracker != null && !enemy.IsVisible) //Draw last known direction
                     LastKnownPosition(enemy, enemyIndex);
                 enemyIndex++;
             }
