@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Ensage;
 using SharpDX;
@@ -17,7 +16,13 @@ namespace Prediction_V2
 
         static void Main(string[] args)
         {
+            Game.OnUpdate += Game_OnUpdate;
             Drawing.OnDraw += Drawing_OnDraw; //Graphical Drawer
+        }
+
+        private static void Game_OnUpdate(EventArgs args)
+        {
+            Drawing.OnDraw += Drawing_OnDraw;
         }
 
         public static void Drawing_OnDraw(EventArgs args)
@@ -66,19 +71,15 @@ namespace Prediction_V2
                     Vector2 StraightDis = Drawing.WorldToScreen(enemy.Position); //Facing position line
                     StraightDis.X += (float)Math.Cos(Angle) * 500;
                     StraightDis.Y += (float)Math.Sin(Angle) * 500;
-                    if (Drawing.WorldToScreen(enemy.Position).Y > 15)
+                    if (Drawing.WorldToScreen(EnemyTracker[enemyIndex].EnemyTracker.Position).Y > 15)
                     {
-                        Drawing.DrawLine(Drawing.WorldToScreen(enemy.Position), StraightDis, Color.Red);
-                        Drawing.DrawText(string.Format("{0} {1}", enemy.Name.Replace("npc_dota_hero_",""), GetTimeDifference(EnemyTracker[enemyIndex].RelativeGameTime)), Drawing.WorldToScreen(enemy.Position), Color.Cyan, FontFlags.AntiAlias | FontFlags.Outline);
+                        Drawing.DrawLine(Drawing.WorldToScreen(EnemyTracker[enemyIndex].EnemyTracker.Position), StraightDis, Color.Red);
+                        Drawing.DrawText(string.Format("{0} {1}", enemy.Name.Replace("npc_dota_hero_",""), GetTimeDifference(EnemyTracker[enemyIndex].RelativeGameTime)), Drawing.WorldToScreen(EnemyTracker[enemyIndex].EnemyTracker.Position), Color.Cyan, FontFlags.AntiAlias | FontFlags.Outline);
                     }
                 }
             }
             catch (Exception ex)
             { }
-        }
-        public static string GetHeroNameFromLongHeroName(string Name)
-        {
-            return Name.Split(new string[] { "npc_dota_hero_" }, StringSplitOptions.None)[1];
         }
         public static string GetTimeDifference(int Time)
         {
