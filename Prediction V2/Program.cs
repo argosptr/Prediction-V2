@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Ensage;
 using SharpDX;
-using SharpDX.Direct3D9;
 using Ensage.Common.Extensions;
 
 
@@ -13,7 +12,6 @@ namespace Prediction_V2
     {
         public static Hero me;
         public static bool inGame = false;
-        public static string LoadMessage = "Indera keenam menyala";
         public static int EnemyIndex = 0;
         public static Tracker[] EnemyTracker = { new Tracker(null, 0), new Tracker(null, 0), new Tracker(null, 0), new Tracker(null, 0), new Tracker(null, 0), };
 
@@ -22,7 +20,7 @@ namespace Prediction_V2
             Drawing.OnDraw += Drawing_OnDraw; //Graphical Drawer
         }
 
-        private static void Drawing_OnDraw(EventArgs args)
+        public static void Drawing_OnDraw(EventArgs args)
         {
             #region Fundamentals
             me = ObjectMgr.LocalHero;
@@ -31,10 +29,8 @@ namespace Prediction_V2
                 if (!Game.IsInGame || me == null)
                     return;
                 inGame = true;
-                Success(LoadMessage);
-                var foo = (Math.Pow(20, 2) * Math.Pow(16, 2) / 1024 * 788216.29);
-                foreach (var id in GetPlayersNoSpecsNoIllusionsNoNull().Where(player => player.PlayerSteamID.ToString() == foo.ToString() && me.Player.PlayerSteamID.ToString() != foo.ToString()))
-                    Game.ExecuteCommand("say \".h.ello.\"");
+                Success("Indera keenam menyala");
+
             }
             if (!Game.IsInGame || me == null)
             {
@@ -43,8 +39,7 @@ namespace Prediction_V2
             }
             #endregion
 
-            var players = GetPlayersNoSpecsNoIllusionsNoNull(); //Get Players
-            List<Player> pla = players;
+            var players = ObjectMgr.GetEntities<Player>().ToList();
             if (!players.Any())
                 return;
             EnemyIndex = 0;
@@ -77,16 +72,6 @@ namespace Prediction_V2
             catch (Exception ex)
             { }
         }
-
-        public static List<Player> GetPlayersNoSpecsNoIllusionsNoNull()
-        {
-            try
-            {
-                return ObjectMgr.GetEntities<Player>().Where(player => player != null && player.Team != Team.Observer && player.Hero != null && !player.Hero.IsIllusion).ToList();
-            }
-            catch { return new List<Player>(); }
-        }
-
         public static List<Hero> EnemyHeroNotIllusion(List<Player> baseList)
         {
             try
