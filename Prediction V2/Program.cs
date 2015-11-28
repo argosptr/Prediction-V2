@@ -10,7 +10,7 @@ namespace Prediction_V2
 {
     class Program
     {
-        public static Hero me;
+        public static Hero me = ObjectMgr.LocalHero;
         public static bool inGame = false;
         public static int EnemyIndex = 0;
         public static Tracker[] EnemyTracker = { new Tracker(null, 0), new Tracker(null, 0), new Tracker(null, 0), new Tracker(null, 0), new Tracker(null, 0), };
@@ -41,8 +41,6 @@ namespace Prediction_V2
 
             var players = ObjectMgr.GetEntities<Player>().ToList();
             var heromusuh = ObjectMgr.GetEntities<Hero>().Where(x => !x.IsIllusion && x.Team != me.Team).ToList();
-            if (!players.Any())
-                return;
             EnemyIndex = 0;
             int enemyIndex = 0;
             foreach (var enemy in heromusuh)
@@ -68,10 +66,10 @@ namespace Prediction_V2
                     Vector2 StraightDis = Drawing.WorldToScreen(enemy.Position); //Facing position line
                     StraightDis.X += (float)Math.Cos(Angle) * 500;
                     StraightDis.Y += (float)Math.Sin(Angle) * 500;
-                    if (Drawing.WorldToScreen(EnemyTracker[enemyIndex].EnemyTracker.Position).Y > 15)
+                    if (Drawing.WorldToScreen(enemy.Position).Y > 15)
                     {
-                        Drawing.DrawLine(Drawing.WorldToScreen(EnemyTracker[enemyIndex].EnemyTracker.Position), StraightDis, Color.Red);
-                        Drawing.DrawText(string.Format("{0} {1}", GetHeroNameFromLongHeroName(enemy.Name), GetTimeDifference(EnemyTracker[enemyIndex].RelativeGameTime)), Drawing.WorldToScreen(EnemyTracker[enemyIndex].EnemyTracker.Position), Color.Cyan, FontFlags.AntiAlias | FontFlags.Outline);
+                        Drawing.DrawLine(Drawing.WorldToScreen(enemy.Position), StraightDis, Color.Red);
+                        Drawing.DrawText(string.Format("{0} {1}", enemy.Name.Replace("npc_dota_hero_",""), GetTimeDifference(EnemyTracker[enemyIndex].RelativeGameTime)), Drawing.WorldToScreen(enemy.Position), Color.Cyan, FontFlags.AntiAlias | FontFlags.Outline);
                     }
                 }
             }
