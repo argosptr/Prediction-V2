@@ -40,13 +40,19 @@ namespace Prediction_V2
             #endregion
 
             var players = ObjectMgr.GetEntities<Player>().ToList();
+            var heromusuh = ObjectMgr.GetEntities<Hero>().Where(x => !x.IsIllusion && x.Team != me.Team).ToList();
             if (!players.Any())
                 return;
             EnemyIndex = 0;
             int enemyIndex = 0;
-            foreach (var enemy in EnemyHeroNotIllusion(players))
+            foreach (var enemy in heromusuh)
             {
-                if (EnemyTracker[enemyIndex].EnemyTracker != null) //Draw last known direction
+                if (enemy.IsVisible && enemy.IsAlive)
+                {
+                    EnemyTracker[enemyIndex].EnemyTracker = enemy;
+                    EnemyTracker[enemyIndex].RelativeGameTime = (int)Game.GameTime;
+                }
+                else if (EnemyTracker[enemyIndex].EnemyTracker != null) //Draw last known direction
                     LastKnownPosition(enemy, enemyIndex);
                 enemyIndex++;
             }
@@ -72,15 +78,6 @@ namespace Prediction_V2
             catch (Exception ex)
             { }
         }
-        public static List<Hero> EnemyHeroNotIllusion(List<Player> baseList)
-        {
-            try
-            {
-                return baseList.Where(player => player.Hero.Team != me.Team && !player.Hero.IsIllusion).Select(player => player.Hero).ToList();
-            }
-            catch { return new List<Hero>(); }
-        }
-
         public static string GetHeroNameFromLongHeroName(string Name)
         {
             return Name.Split(new string[] { "npc_dota_hero_" }, StringSplitOptions.None)[1];
