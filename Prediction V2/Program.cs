@@ -106,9 +106,9 @@ namespace Prediction_V2
             if (difference == 0)
                 return "";
             else if (difference < 2)
-                return difference.ToString() + " seconds ago";
+                return difference.ToString() + " detik";
             else if (difference < 60)
-                return difference.ToString() + " seconds ago";
+                return difference.ToString() + " detik";
             else
                 return ConvertIntToTimeString(difference) + " ago";
         }
