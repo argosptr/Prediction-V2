@@ -9,7 +9,7 @@ namespace Prediction_V2
 {
     class Program
     {
-        public static Hero me = ObjectMgr.LocalHero;
+        public static Hero me;
         public static bool inGame = false;
         public static int EnemyIndex = 0;
         public static Tracker[] EnemyTracker = { new Tracker(null, 0), new Tracker(null, 0), new Tracker(null, 0), new Tracker(null, 0), new Tracker(null, 0), };
@@ -40,17 +40,16 @@ namespace Prediction_V2
 
             var heromusuh = ObjectMgr.GetEntities<Hero>().Where(x => !x.IsIllusion && x.Team != me.Team).ToList();
             EnemyIndex = 0;
-            int enemyIndex = 0;
             foreach (var enemy in heromusuh)
             {
-                if (enemy.IsAlive)
+                if (enemy.Player.Hero.IsAlive && enemy.Player.Hero.IsVisible)
                 {
-                    EnemyTracker[enemyIndex].EnemyTracker = enemy;
-                    EnemyTracker[enemyIndex].RelativeGameTime = (int)Game.GameTime;
-
-                    LastKnownPosition(enemy, enemyIndex);
-                    enemyIndex++;
+                    EnemyTracker[EnemyIndex].EnemyTracker = enemy;
+                    EnemyTracker[EnemyIndex].RelativeGameTime = (int)Game.GameTime;
                 }
+                else if (EnemyTracker[EnemyIndex].EnemyTracker != null) //Draw last known direction
+                    LastKnownPosition(enemy, EnemyIndex);
+                EnemyIndex++;
             }
         }
 
