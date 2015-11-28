@@ -39,17 +39,18 @@ namespace Prediction_V2
             #endregion
 
             var heromusuh = ObjectMgr.GetEntities<Hero>().Where(x => !x.IsIllusion && x.Team != me.Team).ToList();
+            int enemyIndex = 0;
             EnemyIndex = 0;
             foreach (var enemy in heromusuh)
             {
                 if (enemy.Player.Hero.IsAlive && enemy.Player.Hero.IsVisible)
                 {
-                    EnemyTracker[EnemyIndex].EnemyTracker = enemy;
-                    EnemyTracker[EnemyIndex].RelativeGameTime = (int)Game.GameTime;
+                    EnemyTracker[enemyIndex].EnemyTracker = enemy;
+                    EnemyTracker[enemyIndex].RelativeGameTime = (int)Game.GameTime;
                 }
-                else if (EnemyTracker[EnemyIndex].EnemyTracker != null) //Draw last known direction
-                    LastKnownPosition(enemy, EnemyIndex);
-                EnemyIndex++;
+                else if (EnemyTracker[enemyIndex].EnemyTracker != null) //Draw last known direction
+                    LastKnownPosition(enemy, enemyIndex);
+                enemyIndex++;
             }
         }
 
