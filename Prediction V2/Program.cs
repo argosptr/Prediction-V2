@@ -44,12 +44,13 @@ namespace Prediction_V2
             foreach (var enemy in heromusuh)
             {
                 if (enemy.IsAlive)
-                { 
+                {
                     EnemyTracker[enemyIndex].EnemyTracker = enemy;
                     EnemyTracker[enemyIndex].RelativeGameTime = (int)Game.GameTime;
-  
+
                     LastKnownPosition(enemy, enemyIndex);
-                enemyIndex++;
+                    enemyIndex++;
+                }
             }
         }
 
