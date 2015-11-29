@@ -44,7 +44,7 @@ namespace Prediction_V2
             EnemyIndex = 0;
             foreach (var enemy in heromusuh)
             {
-                if (enemy.Player.Hero.IsAlive && enemy.Player.Hero.IsVisible)
+                if (enemy.IsAlive && enemy.IsVisible)
                 {
                     EnemyTracker[enemyIndex].EnemyTracker = enemy;
                     EnemyTracker[enemyIndex].RelativeGameTime = (int)Game.GameTime;
