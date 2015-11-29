@@ -24,8 +24,18 @@ namespace Prediction_V2
         {
             #region Fundamentals
             me = ObjectMgr.LocalHero;
-            Success("Indera keenam menyala");
-
+            if (!inGame)
+            {
+                if (!Game.IsInGame || me == null)
+                    return;
+                inGame = true;
+                Success("Aktif");
+            }
+            if (!Game.IsInGame || me == null)
+            {
+                inGame = false;
+                return;
+            }
             #endregion
             var heromusuh = ObjectMgr.GetEntities<Hero>().Where(x => !x.IsIllusion && x.Team != me.Team).ToList();
             int enemyIndex = 0;
