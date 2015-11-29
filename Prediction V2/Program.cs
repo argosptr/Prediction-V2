@@ -12,6 +12,7 @@ namespace Prediction_V2
         public static Hero me;
         public static bool inGame = false;
         public static int EnemyIndex = 0;
+        public static Vector3[] EnemiesPos = new Vector3[5];
         public static Tracker[] EnemyTracker = { new Tracker(null, 0), new Tracker(null, 0), new Tracker(null, 0), new Tracker(null, 0), new Tracker(null, 0), };
 
         static void Main(string[] args)
@@ -47,6 +48,8 @@ namespace Prediction_V2
                 {
                     EnemyTracker[enemyIndex].EnemyTracker = enemy;
                     EnemyTracker[enemyIndex].RelativeGameTime = (int)Game.GameTime;
+                    EnemiesPos[EnemyIndex] = enemy.Position;
+                    EnemyIndex++;
                 }
                 else if (EnemyTracker[enemyIndex].EnemyTracker != null) //Draw last known direction
                     LastKnownPosition(enemy, enemyIndex);
