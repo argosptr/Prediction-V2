@@ -38,7 +38,7 @@ namespace Prediction_V2
                 return;
             }
             #endregion
-
+            Backdrop(10, 47, 120, 53, new Color(0, 0, 0, 200));
             var heromusuh = ObjectMgr.GetEntities<Hero>().Where(x => !x.IsIllusion && x.Team != me.Team).ToList();
             int enemyIndex = 0;
             EnemyIndex = 0;
@@ -105,6 +105,10 @@ namespace Prediction_V2
             Console.ForegroundColor = color;
             Console.WriteLine(text, arguments);
             Console.ForegroundColor = clr;
+        }
+        public static void Backdrop(int StartingX, int StartingY, int ClosingX, int ClosingY, Color color)
+        {
+            Drawing.DrawRect(new Vector2(StartingX, StartingY), new Vector2(ClosingX, ClosingY), color);//Background (backdrop)
         }
     }
 
