@@ -24,27 +24,15 @@ namespace Prediction_V2
         {
             #region Fundamentals
             me = ObjectMgr.LocalHero;
-            if (!inGame)
-            {
-                if (!Game.IsInGame || me == null)
-                    return;
-                inGame = true;
-                Success("Indera keenam menyala");
+            Success("Indera keenam menyala");
 
-            }
-            if (!Game.IsInGame || me == null)
-            {
-                inGame = false;
-                return;
-            }
             #endregion
-            Backdrop(10, 47, 120, 53, new Color(0, 0, 0, 200));
             var heromusuh = ObjectMgr.GetEntities<Hero>().Where(x => !x.IsIllusion && x.Team != me.Team).ToList();
             int enemyIndex = 0;
             EnemyIndex = 0;
             foreach (var enemy in heromusuh)
             {
-                if (enemy.IsAlive && enemy.IsVisible)
+                if (enemy.IsAlive)
                 {
                     EnemyTracker[enemyIndex].EnemyTracker = enemy;
                     EnemyTracker[enemyIndex].RelativeGameTime = (int)Game.GameTime;
@@ -105,10 +93,6 @@ namespace Prediction_V2
             Console.ForegroundColor = color;
             Console.WriteLine(text, arguments);
             Console.ForegroundColor = clr;
-        }
-        public static void Backdrop(int StartingX, int StartingY, int ClosingX, int ClosingY, Color color)
-        {
-            Drawing.DrawRect(new Vector2(StartingX, StartingY), new Vector2(ClosingX, ClosingY), color);//Background (backdrop)
         }
     }
 
